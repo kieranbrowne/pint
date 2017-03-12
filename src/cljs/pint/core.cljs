@@ -15,7 +15,7 @@
 
 (defonce state
   (atom
-   {:page :nil}))
+   {:page :home}))
 
 
 (defn hook-browser-navigation! []
@@ -35,7 +35,7 @@
   (defroute "/component/:type/:key" [type key]
     (do
       (swap! state assoc :page :component)
-      (swap! state assoc :component {:type type :key key})
+      ; (swap! state assoc :component {:type type :key key})
       ))
 
   (hook-browser-navigation!))
@@ -47,7 +47,8 @@
 (defn home [ratom]
   [:div [:h1 "Home Page"]
    [:p "FIXME"]
-   [:a {:href "/about"} "about page"]])
+   ; [:p (hiccup/html [:script])]
+   [:a {:href "/component/type/key"} "about page"]])
 
 (defn component-page [ratom]
   [:div [:h1 "Component Page"]
