@@ -6,6 +6,9 @@
 (defn unit [unit value]
   (str value unit))
 
+(defn unit-range [u & others]
+  (map (partial unit u) (apply range others)))
+
 (defn comb
   "Returns all combinations of properties and values"
   [props values]
@@ -24,6 +27,19 @@
   "Convert cssmap into pint microclass"
   (comp keyword (partial str ".") shorten))
 
+(defn class-name
+  "TODO: this will make h,v and a microclasses for left, right,
+  top and bottom classes."
+  [propval]
+  (let [property (first (keys propval))
+        value (first (vals propval))]
+    [(if (re-find #"(-left)|(-right)" (str property)) :.mh :empty)
+     (if (re-find #"(-top)|(-bottom)" (str property)) :.mv :empty)
+     (if (re-find #"(-left)|(-right)|(-top)|(-bottom)" (str property)) :.ma)
+     propval]
+    )
+  )
+
 (defn pintificate
   "Generate microclass for every combination of props and values."
   [props values]
@@ -31,26 +47,6 @@
          (map
           (fn [x] {(pint-class x) x})
           (comb props values))))
-
-(def pints
-  "Collate all pints"
-  (merge
-   (pintificate [:display] [:inline-block :block :flex])
-   (pintificate [:font-weight] (range 100 1000 100))
-   (pintificate [:font-style] [:italic])
-   (pintificate [:font-size] ["10px"])
-   ))
-
-
-(spit "resources/public/css/pint-12-30px.css"
-      (apply str (map css (vec pints))))
-
-;; example structure
-(def post-tile
-  [:div.db.fw100 "My Post"
-   [:div.dib "pants"]
-   ]
-  )
 
 (def classes
   "Get classes from hiccup keyword"
@@ -72,7 +68,3 @@
    [(first markup)
     (collate-styles (first markup))]
    (map traditional-css (filter vector? (rest markup)))))
-
-(css (traditional-css post-tile))
-(traditional-css post-tile)
-
