@@ -1,7 +1,29 @@
-.db {
+.fw900 {
+  font-weight: 900;
+}.fw700 {
+  font-weight: 700;
+}.fw300 {
+  font-weight: 300;
+}.db {
   display: block;
+}.fw200 {
+  font-weight: 200;
+}.fs10px {
+  font-size: 10px;
+}.fw400 {
+  font-weight: 400;
+}.df {
+  display: flex;
+}.fw500 {
+  font-weight: 500;
+}.fw800 {
+  font-weight: 800;
+}.fsi {
+  font-style: italic;
 }.dib {
   display: inline-block;
+}.fw600 {
+  font-weight: 600;
 }.fw100 {
   font-weight: 100;
 }
