@@ -10,7 +10,7 @@
 
   :min-lein-version "2.5.3"
 
-  :source-paths ["src/clj"]
+  :source-paths ["src/clj" "src/cljc"]
 
   :plugins [[lein-cljsbuild "1.1.4"]]
 

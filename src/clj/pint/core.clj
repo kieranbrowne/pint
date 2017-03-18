@@ -52,7 +52,6 @@
    (pintificate [:font-size] ["10px"])
    ))
 
-
 ;; write pint file
 (spit "resources/public/css/pint-12-30px.css"
       (apply str (map css (vec pints))))
@@ -60,11 +59,7 @@
 ;; example structure
 (def post-tile
   [:div.db.fw100 "My Post"
-   [:div.dib "pants"]
-   ]
-  )
+   [:div.dib "pants"
+    [:p.df "Lorem ipsum"]]])
 
-(utils/traditional-css post-tile)
-
-(css
- (utils/traditional-css post-tile))
+(utils/traditional-css pints post-tile)

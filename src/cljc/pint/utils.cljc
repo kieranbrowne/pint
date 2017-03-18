@@ -1,7 +1,5 @@
 (ns pint.utils
-  (:require [garden.core :as garden :refer [css]]
-            [clojure.math.combinatorics :refer [cartesian-product]]
-            [clojure.string :as str]))
+  (:require [clojure.math.combinatorics :refer [cartesian-product]]))
 
 (defn unit [unit value]
   (str value unit))
@@ -56,15 +54,15 @@
    str))
 
 
-(defn collate-styles [hiccup-key]
+(defn collate-styles [pints hiccup-key]
   (apply merge
          (map (partial get pints)
               (classes hiccup-key))))
 
 (defn traditional-css
   "Generate traditional nested css structure from markup."
-  [markup]
+  [pints markup]
   (into
    [(first markup)
-    (collate-styles (first markup))]
-   (map traditional-css (filter vector? (rest markup)))))
+    (collate-styles pints (first markup))]
+   (map #(traditional-css pints %) (filter vector? (rest markup)))))

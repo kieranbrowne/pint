@@ -12,6 +12,8 @@
   font-size: 10px;
 }.fw400 {
   font-weight: 400;
+}.fwn {
+  font-weight: normal;
 }.df {
   display: flex;
 }.fw500 {
@@ -26,4 +28,6 @@
   font-weight: 600;
 }.fw100 {
   font-weight: 100;
+}.fwb {
+  font-weight: bold;
 }
