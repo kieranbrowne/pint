@@ -14,6 +14,8 @@
     (unit-range "px" 0 10)
     (unit-range "rem" 0 10)
     (unit-range "em" 0 10)
+    (unit-range "vw" 0 110 10)
+    (unit-range "vh" 0 110 10)
     ))
 
 
@@ -49,12 +51,21 @@
    (pintificate [:font-weight] (range 100 1000 100))
    (pintificate [:font-weight] [:bold :normal])
    (pintificate [:font-style] [:italic])
-   (pintificate [:font-size] ["10px"])
+   (pintificate [:font-size] (unit-range "px" 6 73 6))
+   (pintificate [:font-size] (unit-range "rem" 1 8 1))
+   (pintificate [:width :max-width :height :max-height :margin :padding-top]
+                standard-values)
+   (pintificate [:color :background-color] [:black :grey :white])
+   (pintificate [:text-align] [:left :center :right :justify])
+   (pintificate [:letter-spacing] (unit-range "px" -5/5 6/5 1/5))
    ))
+
+
 
 ;; write pint file
 (spit "resources/public/css/pint-12-30px.css"
-      (apply str (map css (vec pints))))
+      (apply str (map (comp #(str % " ") css) (vec pints))))
+
 
 ;; example structure
 (def post-tile
