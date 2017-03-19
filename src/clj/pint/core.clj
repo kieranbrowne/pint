@@ -2,6 +2,7 @@
   (:require [pint.grid :as grid]
             [pint.utils :as utils :refer [unit-range pintificate]]
             [garden.core :refer [css]]
+            [garden.compression :refer [compress-stylesheet]]
             ))
 
 
@@ -66,7 +67,8 @@
 
 ;; write pint file
 (spit "resources/public/css/pint-12-30px.css"
-      (apply str (map (comp #(str % " ") css) (vec pints))))
+      (compress-stylesheet
+       (apply str (map (comp #(str % " ") css) (vec pints)))))
 
 
 ;; example structure
