@@ -53,6 +53,8 @@
    (pintificate [:font-style] [:italic])
    (pintificate [:font-size] (unit-range "px" 6 73 6))
    (pintificate [:font-size] (unit-range "rem" 1 8 1))
+   (pintificate [:border-radius] (unit-range "px" 0 11))
+   (pintificate [:appearance :border] [:none])
    (pintificate [:width :max-width :height :max-height :margin :padding-top]
                 standard-values)
    (pintificate [:color :background-color] [:black :grey :white])

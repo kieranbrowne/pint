@@ -1,4 +1,6 @@
-.pt60% {
+.an {
+  appearance: none;
+} .pt60% {
   padding-top: 60%;
 } .w8em {
   width: 8em;
@@ -32,6 +34,8 @@
   width: 80vh;
 } .pt10vh {
   padding-top: 10vh;
+} .bn {
+  border: none;
 } .w70% {
   width: 70%;
 } .h80% {
@@ -56,6 +60,8 @@
   max-height: 0;
 } .h60vw {
   height: 60vw;
+} .br4px {
+  border-radius: 4px;
 } .m2em {
   margin: 2em;
 } .mw4em {
@@ -102,6 +108,8 @@
   max-height: 5rem;
 } .m20vw {
   margin: 20vw;
+} .br8px {
+  border-radius: 8px;
 } .mh90vw {
   max-height: 90vw;
 } .pt1em {
@@ -118,6 +126,8 @@
   padding-top: 60vh;
 } .m30vh {
   margin: 30vh;
+} .br0px {
+  border-radius: 0px;
 } .m3em {
   margin: 3em;
 } .mh8em {
@@ -264,6 +274,8 @@
   max-width: 1em;
 } .mw50vw {
   max-width: 50vw;
+} .br2px {
+  border-radius: 2px;
 } .ls0px {
   letter-spacing: 0px;
 } .mh8px {
@@ -306,6 +318,8 @@
   width: 5px;
 } .pt90% {
   padding-top: 90%;
+} .br6px {
+  border-radius: 6px;
 } .pt9em {
   padding-top: 9em;
 } .mw4rem {
@@ -440,6 +454,8 @@
   width: 100%;
 } .fs48px {
   font-size: 48px;
+} .br3px {
+  border-radius: 3px;
 } .mh40vw {
   max-height: 40vw;
 } .m5em {
@@ -476,6 +492,8 @@
   letter-spacing: 1/5px;
 } .mh9em {
   max-height: 9em;
+} .br7px {
+  border-radius: 7px;
 } .m4px {
   margin: 4px;
 } .mh70% {
@@ -520,6 +538,8 @@
   margin: 4rem;
 } .mh0px {
   max-height: 0px;
+} .br1px {
+  border-radius: 1px;
 } .fw500 {
   font-weight: 500;
 } .h3em {
@@ -592,6 +612,8 @@
   padding-top: 80%;
 } .fs5rem {
   font-size: 5rem;
+} .br9px {
+  border-radius: 9px;
 } .h20% {
   height: 20%;
 } .m0em {
@@ -822,6 +844,8 @@
   width: 8rem;
 } .pta {
   padding-top: auto;
+} .br5px {
+  border-radius: 5px;
 } .h6px {
   height: 6px;
 } .fwb {
@@ -888,6 +912,8 @@
   margin: 6rem;
 } .pt8rem {
   padding-top: 8rem;
+} .br10px {
+  border-radius: 10px;
 } .mha {
   max-height: auto;
 } 

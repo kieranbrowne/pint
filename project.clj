@@ -4,7 +4,8 @@
                  [org.clojure/math.combinatorics  "0.1.4"]
                  [reagent "0.6.0"]
                  [secretary "1.2.3"]
-                 [hiccup  "1.0.5"]
+                 [hiccup "1.0.5"]
+                 [hickory "0.7.0"]
                  [garden "1.3.2"]
                  ]
 
