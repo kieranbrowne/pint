@@ -49,6 +49,12 @@
   "Collate all pints"
   (merge
    (pintificate [:display] [:inline-block :block :flex])
+   (pintificate [:cursor] [:pointer])
+   (pintificate [:box-sizing] [:content-box :border-box])
+   (pintificate [:flex-grow :flex-shrink] [1 0])
+   (pintificate [:flex-wrap] [:wrap :no-wrap :wrap-reverse])
+   (pintificate [:justify-content]
+                [:flex-start :flex-end :center :space-between :space-around])
    (pintificate [:font-weight] (range 100 1000 100))
    (pintificate [:font-weight] [:bold :normal])
    (pintificate [:font-style] [:italic])
@@ -56,7 +62,7 @@
    (pintificate [:font-size] (unit-range "rem" 1 8 1))
    (pintificate [:border-radius] (unit-range "px" 0 11))
    (pintificate [:appearance :border] [:none])
-   (pintificate [:width :max-width :height :max-height :margin :padding-top]
+   (pintificate [:width :max-width :height :max-height :line-height :margin :padding-top :font-size]
                 standard-values)
    (pintificate [:color :background-color] [:black :grey :white])
    (pintificate [:text-align] [:left :center :right :justify])
@@ -64,9 +70,12 @@
    (home-brew #(str "w" % "c")
               #(assoc {} :width (grid/generate 12 gutter %))
               (range 1 13))
+   (home-brew #(str "h" % "c")
+              #(assoc {} :height (grid/generate 12 gutter %))
+              (range 1 13))
    (home-brew #(str (utils/shorten %) "g")
               #(assoc {} % gutter)
-              [:margin-left :margin-right])
+              [:margin-left :margin-right :margin-bottom :margin-top :padding-left :padding-right :padding-top :padding-bottom])
 
    ))
 

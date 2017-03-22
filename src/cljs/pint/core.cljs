@@ -57,6 +57,60 @@
 
 ;; (.log js/console
 ;;   )
+(def grid
+  (let [ls [1 2 3 4 6 12]
+        ns (map vector ls (reverse ls))]
+    [:div.grid.df.fww.jcsb.ptg
+     {:style {:background-color "rgba(55,132,212,.2)"}}
+     (for [i ns]
+       (conj
+        (for [x (range (first i))]
+          [:div.dib.lh2rem.mbg.tac.cw
+           {:class (str "w" (second i) "c")
+            :style {:background-color "rgba(55,132,212,.5)"}}
+           (str ".w" (second i) "c")
+           ]
+          )
+        [:div.w12c])
+       )
+     ]))
+
+(def grid-squares
+  [:div.grid.df.fww
+   {:style {:background-color "rgba(55,132,212,.2)"}}
+     [:div.dib.lh1rem.mrg.tac.cw.bsbb.ptg.w2c.h1c
+      {:style {:background-color "rgba(55,132,212,.5)"}}
+      ".w2c.h1c"]
+   [:div.dib.lh1rem.mrg.tac.cw.bsbb.ptg.w1c.h2c
+    {:style {:background-color "rgba(55,132,212,.5)"}}
+    ".w1c\n.h2c"]
+   [:div.dib.lh1rem.mrg.tac.cw.bsbb.ptg.w2c.h2c
+    {:style {:background-color "rgba(55,132,212,.5)"}}
+    ".w2c.h2c"]
+   [:div.dib.lh1rem.mrg.tac.cw.bsbb.ptg.w6c.h2c
+    {:style {:background-color "rgba(55,132,212,.5)"}}
+    ".w2c.h2c"]
+   ])
+
+
+(defn bar []
+  [:div.w2c.fl.plg.bsbb
+   {:style {:background-color "#66c"}}
+   [:h2.cw.lh4rem.fw800.fs1rem "Pint.css"]
+   ]
+  )
+
+
+
+(defn tabs [curs options]
+  (fn []
+    [:div.df.w100%
+     (for [option options]
+       [:div.lh2rem.plg.prg.cp
+              {:on-click #(reset! curs option)
+               :style (if (= @curs option) {:background-color "#aaa"} {:background-color "#eee"})
+               }
+              (name option)])]))
 
 (defn html-to-reagent [html]
   (first
@@ -87,32 +141,27 @@
                    :edn cljs.reader/read-string
                    :html html-to-reagent)]
     [:div
-     [:a {:on-click
-          #(reset! mode :edn)}
-      "EDN" (if (= @mode :edn) "tick")]
-     [:a {:on-click
-          #(reset! mode :html)}
-      "HTML" (if (= @mode :html) "tick")]
-    [:textarea.fs18px.pt1rem.an.bn.m1rem
-     {
-      :type "text"
-      :style {:background-color "#eee"}
-      :rows 4
-      :cols 50
-      :value (try (read-fn @value)
-                  (catch :default e (str @value))
-                  )
-      :on-change
-      #(reset! value
-               (try
-                 (if (= (write-fn (-> % .-target .-value))
-                        (write-fn (read-fn (write-fn (-> % .-target .-value))))
-                        )
-                   (write-fn (-> % .-target .-value))
-                   (str (-> % .-target .-value))
+     [(tabs mode [:html :edn])]
+     [:textarea.fs18px.pt1rem.an.bn.m1rem
+      {
+       :type "text"
+       :style {:background-color "#eee"}
+       :rows 4
+       :cols 50
+       :value (try (read-fn @value)
+                   (catch :default e (str @value))
                    )
-                 (catch :default e (str (-> % .-target .-value)))))}
-     ;; (read-fn @value)
+       :on-change
+       #(reset! value
+                (try
+                  (if (= (write-fn (-> % .-target .-value))
+                         (write-fn (read-fn (write-fn (-> % .-target .-value))))
+                         )
+                    (write-fn (-> % .-target .-value))
+                    (str (-> % .-target .-value))
+                    )
+                  (catch :default e (str (-> % .-target .-value)))))}
+      ;; (read-fn @value)
       ]]))
 
 ;; Pages
@@ -122,9 +171,12 @@
    [:div.w100vw.h100vh {:style {:background "blue"}}
     [:h1.m0.pt40vh.cw.tac.fwb.ls1px.fs72px "Pint.css"]
     [:h2.cw.tac.fw100.m0.ls1px.fs32px "microclasses"]]
-   [:div.pt5rem
+   [:div.pt5rem.w12c.mlg
     [:h2.fs3rem.m0.cg "Grids"]
     [:p.1rem.mw30em "Grids are one of the most important parts of any css project."]
+    grid
+    [:h2 "The value c is not exclusive to width"]
+    grid-squares
     ]
    [:h1.fw100 "Home Page"]
    [:p.fwb "FIXME"]
@@ -136,17 +188,10 @@
   (let [key (-> @state :component :key)
         type (-> @state :component :type)
         component (cursor state [:library type key])]
-  [:div [:h1 (:title @component)]
+    [:div
+     [bar]
+     [:h1 (:title @component)]
    [:p (str @state)]
-   [:div.grid
-
-    (for [i (range 12)] [:div.dib.mlg.bcg {:class (str "w" 1 "c")} i])
-    (for [i (range 6)] [:div.dib.mlg.bcg {:class (str "w" 2 "c")} i])
-    (for [i (range 4)] [:div.dib.mlg.bcg {:class (str "w" 3 "c")} i])
-    (for [i (range 3)] [:div.dib.mlg.bcg {:class (str "w" 4 "c")} i])
-    (for [i (range 2)] [:div.dib.mlg.bcg {:class (str "w" 6 "c")} i])
-    (for [i (range 1)] [:div.dib.mlg.bcg {:class (str "w" 12 "c")} i])
-    ]
    [:div {:style {:background-color "#ccc" :padding "2rem" :text-align "center"}}
     [:div.dib {:style {:box-shadow "0 0 2px 1px #aaa"
                    :background-color "white" :text-align "left"}}
@@ -157,6 +202,7 @@
    [:a {:href "/#/"} "Home"]
    ])
   )
+
 
 
 ;; Initialize App
