@@ -21,9 +21,13 @@
    (partial re-seq #"\w+|\d(?!\S)|%")
    str))
 
+
+(def str-to-class
+  (comp keyword (partial str ".")))
+
 (def pint-class
   "Convert cssmap into pint microclass"
-  (comp keyword (partial str ".") shorten))
+  (comp str-to-class shorten))
 
 (defn class-name
   "TODO: this will make h,v and a microclasses for left, right,
@@ -39,12 +43,19 @@
   )
 
 (defn pintificate
-  "Generate microclass for every combination of props and values."
+  "Auto-generate microclass for every combination of props and values."
   [props values]
   (apply merge
          (map
           (fn [x] {(pint-class x) x})
           (comb props values))))
+
+(defn home-brew
+  "Brewing pints on hard mode; a function"
+  [name-fn value-fn inputs]
+  (apply merge
+         (map (fn [x] {(str-to-class (name-fn x)) (value-fn x)})
+              inputs)))
 
 (def classes
   "Get classes from hiccup keyword"

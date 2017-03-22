@@ -1,11 +1,9 @@
 (ns pint.grid)
 
 (defn generate
-  [columns gutter n final]
+  [columns gutter n]
   (str
     "calc("
-    "(96.3 * 1vw - " gutter "*13) /" columns
-    " * " n " + "
-    gutter " * " (if final (- n 1) n) ")"
+    "(100vw - " gutter "*" (+ 1 (/ columns n)) ") / (" (/ columns n) "))"
     ))
 

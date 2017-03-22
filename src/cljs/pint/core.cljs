@@ -138,9 +138,18 @@
         component (cursor state [:library type key])]
   [:div [:h1 (:title @component)]
    [:p (str @state)]
-   [:div {:style {:background-color "#ccc" :padding "12px"}}
-    [:div {:style {:box-shadow "0 0 2px 1px #aaa"
-                   :background-color "white"}}
+   [:div.grid
+
+    (for [i (range 12)] [:div.dib.mlg.bcg {:class (str "w" 1 "c")} i])
+    (for [i (range 6)] [:div.dib.mlg.bcg {:class (str "w" 2 "c")} i])
+    (for [i (range 4)] [:div.dib.mlg.bcg {:class (str "w" 3 "c")} i])
+    (for [i (range 3)] [:div.dib.mlg.bcg {:class (str "w" 4 "c")} i])
+    (for [i (range 2)] [:div.dib.mlg.bcg {:class (str "w" 6 "c")} i])
+    (for [i (range 1)] [:div.dib.mlg.bcg {:class (str "w" 12 "c")} i])
+    ]
+   [:div {:style {:background-color "#ccc" :padding "2rem" :text-align "center"}}
+    [:div.dib {:style {:box-shadow "0 0 2px 1px #aaa"
+                   :background-color "white" :text-align "left"}}
      (:structure @component)
      ]
     ]

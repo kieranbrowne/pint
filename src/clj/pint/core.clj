@@ -1,6 +1,6 @@
 (ns pint.core
   (:require [pint.grid :as grid]
-            [pint.utils :as utils :refer [unit-range pintificate]]
+            [pint.utils :as utils :refer [unit-range pintificate home-brew]]
             [garden.core :refer [css]]
             [garden.compression :refer [compress-stylesheet]]
             ))
@@ -40,7 +40,7 @@
 
 ; values
 
-(def gutter "12rem")
+(def gutter "1rem")
 (def baseline "1rem")
 
 ; combinations
@@ -61,8 +61,14 @@
    (pintificate [:color :background-color] [:black :grey :white])
    (pintificate [:text-align] [:left :center :right :justify])
    (pintificate [:letter-spacing] (unit-range "px" -5/5 6/5 1/5))
-   ))
+   (home-brew #(str "w" % "c")
+              #(assoc {} :width (grid/generate 12 gutter %))
+              (range 1 13))
+   (home-brew #(str (utils/shorten %) "g")
+              #(assoc {} % gutter)
+              [:margin-left :margin-right])
 
+   ))
 
 
 ;; write pint file

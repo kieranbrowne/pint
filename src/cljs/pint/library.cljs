@@ -5,6 +5,6 @@
    {"basic-post"
     { :title "Basic Post Tile"
     :structure
-    [:div.example "test component"]}
+    [:div.post-tile.w3c "test component"]}
     }
    })
