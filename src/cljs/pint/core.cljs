@@ -37,7 +37,7 @@
 
 
 (defn app-routes []
-  (secretary/set-config! :prefix "pint")
+  (secretary/set-config! :prefix "#")
 
   (defroute "/" []
     (swap! state assoc :page :home))
@@ -190,7 +190,7 @@
    [:p.fwb "FIXME"]
    [:p (str (-> @state :library))]
    ; [:p (hiccup/html [:script])]
-   [:a {:href "/pint/component/tiles/basic-post"} "test page"]])
+   [:a {:href "/pint/#/component/tiles/basic-post"} "test page"]])
 
 (defn component-page [ratom]
   (let [key (-> @state :component :key)
@@ -207,7 +207,7 @@
      ]
     ]
    [code-editor (cursor component [:structure])]
-   [:a {:href "/pint/"} "Home"]
+   [:a {:href "/pint/#"} "Home"]
    ])
   )
 
