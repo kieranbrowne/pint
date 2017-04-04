@@ -171,6 +171,7 @@
    [:div.w100vw.h100vh {:style {:background "blue"}}
     [:h1.m0.pt40vh.cw.tac.fwb.ls1px.fs72px "Pint.css"]
     [:h2.cw.tac.fw100.m0.ls1px.fs32px "microclasses"]]
+
    [:div.pt5rem.w12c.mlg
     [:h2.fs3rem.m0.cg "Grids"]
     [:p.1rem.mw30em "Grids are one of the most important parts of any css project."]
@@ -178,6 +179,13 @@
     [:h2 "The value c is not exclusive to width"]
     grid-squares
     ]
+
+   [:div.pt5rem.w12c.mlg
+    [:h2.fs3rem.m0.cg "Font Sizing"]
+    [:p.1rem.mw30em "Font sizes which make sense"]
+    (for [i (range 1 7)]
+      [:p.m0 {:class (str "fs" i)} "lorem ipsum"])]
+
    [:h1.fw100 "Home Page"]
    [:p.fwb "FIXME"]
    [:p (str (-> @state :library))]

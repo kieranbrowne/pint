@@ -1,6 +1,7 @@
 (ns pint.core
   (:require [pint.grid :as grid]
-            [pint.utils :as utils :refer [unit-range pintificate home-brew]]
+            [pint.utils :as utils
+             :refer [unit-range pintificate home-brew]]
             [garden.core :refer [css]]
             [garden.compression :refer [compress-stylesheet]]
             ))
@@ -35,12 +36,9 @@
 
 ; properties (vals in rem)
 
-;; probably just assume 12 cols
-(map #(grid/generate 12 "1rem" % true) (range 1 21))
-
 ; values
 
-(def gutter "1rem")
+(def gutter ".8rem")
 (def baseline "1rem")
 
 ; combinations
@@ -76,9 +74,7 @@
    (home-brew #(str (utils/shorten %) "g")
               #(assoc {} % gutter)
               [:margin-left :margin-right :margin-bottom :margin-top :padding-left :padding-right :padding-top :padding-bottom])
-
    ))
-
 
 ;; write pint file
 (spit "resources/public/css/pint-12-30px.css"
