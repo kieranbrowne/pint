@@ -9,6 +9,7 @@
    [reagent.core :as r :refer [atom cursor]]
    [pint.library :refer [library]]
    [hickory.core :as hickory]
+   [pint.style :as style]
    ))
 
 
@@ -42,8 +43,16 @@
   (defroute "/" []
     (swap! state assoc :page :home))
 
+  (defroute "/docs" []
+    (swap! state assoc :page :docs))
 
-  (defroute "/component/:type/:key" [type key]
+  (defroute "/library" []
+    (do
+      (swap! state assoc :page :library)
+      (reset! (cursor state [:component]) {:type nil :key nil})
+      ))
+
+  (defroute "/library/:type/:key" [type key]
     (do
       (swap! state assoc :page :component)
       (reset! (cursor state [:component]) {:type type :key key})
@@ -93,14 +102,6 @@
    ])
 
 
-(defn bar []
-  [:div.w2c.fl.plg.bsbb
-   {:style {:background-color "#66c"}}
-   [:h2.cw.lh4rem.fw800.fs1rem "Pint.css"]
-   ]
-  )
-
-
 
 (defn tabs [curs options]
   (fn []
@@ -142,6 +143,7 @@
                    :html html-to-reagent)]
     [:div
      [(tabs mode [:html :edn])]
+     [:a#test {:on-click #(.select (.getElementById js/document "test"))} "Copy to clipboard"]
      [:textarea.fs18px.pt1rem.an.bn.m1rem
       {
        :type "text"
@@ -166,10 +168,22 @@
 
 ;; Pages
 
-(defn home [ratom]
+(defn header []
+  [:div {:style {:border-bottom "1px solid #ccc"}}
+   [:a {:href "#"}
+    [:div.w3c.dib.mlg.cb.fw400 "Pint " [:span.fs12px.cg.fw100 "v0.1.0"]]]
+   [:div.w9c.dib.mlg.tar.lh2rem
+    [:a.fs6.mlg.tdn {:href "#/docs" :style style/link} "Docs"]
+    [:a.fs6.mlg.tdn {:href "#/library" :style style/link} "Library"]
+    [:a.fs6.mlg.tdn {:href "https://github.com/kierantbrowne/pint" :style style/link} "Github"]
+    ]
+   ]
+  )
+
+(defn home-page [ratom]
   [:div
-   [:div.w100vw.h100vh {:style {:background "blue"}}
-    [:h1.m0.pt40vh.cw.tac.fwb.ls1px.fs72px "Pint.css"]
+   [header]
+   [:div.w100vw.h100vh {:style {:background "white"}}
     [:h2.cw.tac.fw100.m0.ls1px.fs32px "microclasses"]]
 
    [:div.pt5rem.w12c.mlg
@@ -185,39 +199,77 @@
     [:p.1rem.mw30em "Font sizes which make sense"]
     (for [i (range 1 7)]
       [:p.m0 {:class (str "fs" i)} "lorem ipsum"])]
+   ])
 
-   [:h1.fw100 "Home Page"]
-   [:p.fwb "FIXME"]
-   [:p (str (-> @state :library))]
-   ; [:p (hiccup/html [:script])]
-   [:a {:href "/pint/#/component/tiles/basic-post"} "test page"]])
+(defn docs-page [ratom]
+  [:div
+   [header]
+   [:div
+    (for [i (range 1 7)]
+      [:p {:class (str "fs" i)} "Lorem ipsum"])
+    ]
+   [:div.mlg.w3c
+    [:h4.fw400 "Layouts"]
+    [:ul.lsn.pl0 [:li [:a.fs4 {:href "#/docs"} "Layouts"]]]
+    ]
+   ])
 
 (defn component-page [ratom]
   (let [key (-> @state :component :key)
         type (-> @state :component :type)
         component (cursor state [:library type key])]
     [:div
-     [bar]
      [:h1 (:title @component)]
-   [:p (str @state)]
-   [:div {:style {:background-color "#ccc" :padding "2rem" :text-align "center"}}
-    [:div.dib {:style {:box-shadow "0 0 2px 1px #aaa"
-                   :background-color "white" :text-align "left"}}
-     (:structure @component)
-     ]
-    ]
-   [code-editor (cursor component [:structure])]
-   [:a {:href "/pint/#"} "Home"]
-   ])
-  )
+     [:p (str @state)]
+     [:div {:style {:background-color "#ccc" :padding "2rem" :text-align "center"}}
+      [:div.dib {:style {:box-shadow "0 0 2px 1px #aaa"
+                         :background-color "white" :text-align "left"}}
+       (:structure @component)
+       ]
+      ]
+     [code-editor (cursor component [:structure])]
+     [:a {:href "#"} "Home"]
+     ]))
 
+(defn library-page [ratom]
+  (let [key (-> @state :component :key)
+        type (-> @state :component :type)
+        component (cursor state [:library type key])]
+    [:div
+     [header]
+     [:div.w2c.mlg.dib.h100vh.pt6px.vat
+      {:style {:border-right "1px solid #ccc"}}
+      (for [[type v] library]
+        [:div
+         [:h3.fs5.mb0.lh1rem (clojure.string/capitalize type)]
+         (for [[key comp] v]
+           [:a.fs6.lh1rem.db.tdn
+            {:href (str "#/library/" type "/" key)
+             :style style/link
+             }
+            (:title comp)]
+           )]
+        )
+      ]
+     [:div.w10c.mlg.dib.bsbb.pl2rem.pr2rem
+      [:h1 (:title @component)]
+      [:div {:style {:background-color "#ccc" :padding "2rem" :text-align "center"}}
+       [:div.dib {:style {:box-shadow "0 0 2px 1px #aaa"
+                          :background-color "white" :text-align "left"}}
+        (:structure @component)
+        ]
+       ]
+      [code-editor (cursor component [:structure])]]
+     ]))
 
 
 ;; Initialize App
 
 (defmulti page identity)
-(defmethod page :home [] home)
-(defmethod page :component [] component-page)
+(defmethod page :home [] home-page)
+(defmethod page :docs [] docs-page)
+(defmethod page :library [] library-page)
+(defmethod page :component [] library-page)
 (defmethod page :default [] (fn [_] [:div]))
 
 (defn current-page [ratom]

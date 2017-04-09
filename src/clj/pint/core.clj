@@ -2,6 +2,7 @@
   (:require [pint.grid :as grid]
             [pint.utils :as utils
              :refer [unit-range pintificate home-brew]]
+            [clojure.math.combinatorics :refer [cartesian-product]]
             [garden.core :refer [css]]
             [garden.compression :refer [compress-stylesheet]]
             ))
@@ -56,11 +57,12 @@
    (pintificate [:font-weight] (range 100 1000 100))
    (pintificate [:font-weight] [:bold :normal])
    (pintificate [:font-style] [:italic])
+   (pintificate [:vertical-align] [:top :bottom :middle])
    (pintificate [:font-size] (unit-range "px" 6 73 6))
    (pintificate [:font-size] (unit-range "rem" 1 8 1))
    (pintificate [:border-radius] (unit-range "px" 0 11))
-   (pintificate [:appearance :border] [:none])
-   (pintificate [:width :max-width :height :max-height :line-height :margin :padding-top :font-size]
+   (pintificate [:appearance :border :list-style :text-decoration] [:none])
+   (pintificate [:width :max-width :height :max-height :line-height :margin :padding-top :padding-bottom :padding-left :padding-right :margin-top :margin-bottom :margin-left :margin-right :font-size]
                 standard-values)
    (pintificate [:color :background-color] [:black :grey :white])
    (pintificate [:text-align] [:left :center :right :justify])
@@ -74,12 +76,32 @@
    (home-brew #(str (utils/shorten %) "g")
               #(assoc {} % gutter)
               [:margin-left :margin-right :margin-bottom :margin-top :padding-left :padding-right :padding-top :padding-bottom])
+
+   (home-brew #(str (utils/shorten (first %1)) (second %1))
+              #(hash-map
+                (first %1)
+                (str
+                 (format
+                  "%.1f"
+                  (- (reduce (fn [a b] (java.lang.Math/pow a b)) 7
+                             (repeat (second %) 0.76)) 0.8))
+                 "rem"))
+              (cartesian-product [:font-size]
+                                 (range 1 7)))
    ))
+
+
+
 
 ;; write pint file
 (spit "resources/public/css/pint-12-30px.css"
       (compress-stylesheet
-       (apply str (map (comp #(str % " ") css) (vec pints)))))
+       (apply str
+              (map
+               (comp #(str % " ")
+                     (partial css {:vendors ["webkit"]
+                                   :auto-prefix #{:appearance}}))
+               (vec pints)))))
 
 
 ;; example structure

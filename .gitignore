@@ -5,7 +5,7 @@ out
 .nrepl-port
 # For pushing to gh-pages, we want only the bare minimum
 /resources/public/js/compiled/test/
-/resources/public/js/compiled/dev/**/*.cljs
-/resources/public/js/compiled/dev/**/*.cljs.cache.edn
-/resources/public/js/compiled/dev/**/*.js.map
-/resources/public/js/compiled/dev/figwheel/
+/resources/public/js/compiled/dev/
+/resources/public/js/compiled/min/**/*.cljs
+/resources/public/js/compiled/min/**/*.cljs.cache.edn
+/resources/public/js/compiled/min/**/*.js.map
